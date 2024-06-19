@@ -24,7 +24,13 @@ function App() {
   return <Board />;
 }
 
-export function Square({ value, onSquareClick }) {
+export function Square({
+  value,
+  onSquareClick,
+}: {
+  value: "O" | "X" | null;
+  onSquareClick: (n: number) => void;
+}) {
   return (
     <button className="square" onClick={onSquareClick}>
       {value}
@@ -33,9 +39,11 @@ export function Square({ value, onSquareClick }) {
 }
 
 export function Board() {
-  const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-
+  const [xIsNext, setXIsNext] = useState<boolean>(true);
+  const [squares, setSquares] = useState<("O" | "X" | null)[]>(
+    Array(9).fill(null)
+  );
+  console.log(xIsNext);
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
@@ -48,13 +56,13 @@ export function Board() {
     if (squares[i] || calculateWinner(squares)) {
       return;
     }
-    const nexSquares = squares.slice();
+    const nextSquares = squares.slice();
     if (xIsNext) {
-      nexSquares[i] = "X";
+      nextSquares[i] = "X";
     } else {
-      nexSquares[i] = "O";
+      nextSquares[i] = "O";
     }
-    setSquares(nexSquares);
+    setSquares(nextSquares);
     setXIsNext(!xIsNext);
   }
   return (
